@@ -25,6 +25,12 @@ class MainActivity : AppCompatActivity() {
             viewModel.loadRandomDogImage()
         }
 
+        binding.favoriteButton.setOnClickListener {
+            viewModel.dogImage.value?.let { imageUrl ->
+                viewModel.addToFavorites(imageUrl)
+            }
+        }
+
         viewModel.loadRandomDogImage()
     }
 }
