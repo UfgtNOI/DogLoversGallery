@@ -27,4 +27,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/favoritesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Избранное"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>

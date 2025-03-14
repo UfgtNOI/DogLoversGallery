@@ -1,20 +1,39 @@
 package com.example.dogloversgallery
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dogloversgallery.adapter.FavoriteDogAdapter
+import com.example.dogloversgallery.databinding.ActivityFavoritesBinding
+import com.example.dogloversgallery.factory.DogViewModelFactory
+import com.example.dogloversgallery.viewmodel.DogViewModel
 
 class FavoritesActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityFavoritesBinding
+    private val viewModel: DogViewModel by viewModels {
+        DogViewModelFactory((application as DogLoversGalleryApplication).repository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_favorites)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityFavoritesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Создание адаптера
+        val adapter = FavoriteDogAdapter(emptyList()) { favoriteDog ->
+            // Обработка клика по элементу
+        }
+
+        // Настройка RecyclerView
+        binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.favoritesRecyclerView.adapter = adapter
+
+        // Наблюдение за изменениями в списке избранных изображений
+        viewModel.favorites.observe(this) { favorites ->
+            adapter.favoriteDogs = favorites // Обновляем список в адаптере
+            adapter.notifyDataSetChanged() // Уведомляем адаптер об изменениях
         }
     }
 }

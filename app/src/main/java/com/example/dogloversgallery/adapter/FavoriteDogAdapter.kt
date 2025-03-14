@@ -10,7 +10,7 @@ import com.example.dogloversgallery.R
 import com.example.dogloversgallery.database.FavoriteDog
 
 class FavoriteDogAdapter(
-    private val favoriteDogs: List<FavoriteDog>,
+    var favoriteDogs: List<FavoriteDog>, // Изменили на var
     private val onItemClick: (FavoriteDog) -> Unit
 ) : RecyclerView.Adapter<FavoriteDogAdapter.FavoriteDogViewHolder>() {
 

@@ -1,5 +1,6 @@
 package com.example.dogloversgallery
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,12 @@ class MainActivity : AppCompatActivity() {
             viewModel.dogImage.value?.let { imageUrl ->
                 viewModel.addToFavorites(imageUrl)
             }
+        }
+
+        // Добавляем обработчик для кнопки "Избранное"
+        binding.favoritesButton.setOnClickListener {
+            val intent = Intent(this, FavoritesActivity::class.java)
+            startActivity(intent)
         }
 
         viewModel.loadRandomDogImage()
