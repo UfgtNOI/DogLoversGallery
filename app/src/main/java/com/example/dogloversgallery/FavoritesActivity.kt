@@ -22,9 +22,15 @@ class FavoritesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Создание адаптера
-        val adapter = FavoriteDogAdapter(emptyList()) { favoriteDog ->
-            // Обработка клика по элементу
-        }
+        val adapter = FavoriteDogAdapter(
+            emptyList(),
+            onItemClick = { favoriteDog ->
+                // Обработка клика по элементу (например, открытие деталей)
+            },
+            onDeleteClick = { favoriteDog ->
+                viewModel.removeFromFavorites(favoriteDog.imageUrl) // Удаление из избранного
+            }
+        )
 
         // Настройка RecyclerView
         binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -32,8 +38,8 @@ class FavoritesActivity : AppCompatActivity() {
 
         // Наблюдение за изменениями в списке избранных изображений
         viewModel.favorites.observe(this) { favorites ->
-            adapter.favoriteDogs = favorites // Обновляем список в адаптере
-            adapter.notifyDataSetChanged() // Уведомляем адаптер об изменениях
+            adapter.favoriteDogs = favorites
+            adapter.notifyDataSetChanged()
         }
     }
 }

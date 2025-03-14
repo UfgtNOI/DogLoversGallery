@@ -37,4 +37,6 @@ class DogViewModel(private val repository: DogRepository) : ViewModel() {
             repository.removeFromFavorites(imageUrl)
         }
     }
+
+
 }

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DogLoversGallery</string>
     <string name="dog_image">Dog Image</string>
+    <string name="delete_image">Delete Image</string>
 </resources>
