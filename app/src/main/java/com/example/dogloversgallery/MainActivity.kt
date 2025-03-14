@@ -4,13 +4,21 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.dogloversgallery.database.AppDatabase
 import com.example.dogloversgallery.databinding.ActivityMainBinding
+import com.example.dogloversgallery.factory.DogViewModelFactory
+import com.example.dogloversgallery.network.RetrofitClient
+import com.example.dogloversgallery.repository.DogRepository
 import com.example.dogloversgallery.viewmodel.DogViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: DogViewModel by viewModels()
+
+    // Инициализация ViewModel с использованием фабрики
+    private val viewModel: DogViewModel by viewModels {
+        DogViewModelFactory((application as DogLoversGalleryApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
