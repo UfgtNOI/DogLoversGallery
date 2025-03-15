@@ -1,38 +1,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background"
+    tools:context=".MainActivity">
 
+    <!-- Изображение собаки -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/dog_image" />
 
+    <!-- Кнопка "Следующая собака" -->
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Следующая собака"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        android:elevation="4dp"
+        android:padding="12dp" />
 
+    <!-- Кнопка "Добавить в избранное" -->
     <Button
         android:id="@+id/favoriteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Добавить в избранное"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
+        android:elevation="4dp"
+        android:padding="12dp" />
 
+    <!-- Кнопка "Избранное" -->
     <Button
         android:id="@+id/favoritesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Избранное"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
-
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/purple_700"
+        android:textColor="@color/white"
+        android:elevation="4dp"
+        android:padding="12dp" />
 </LinearLayout>
