@@ -18,37 +18,48 @@ class FavoriteDogAdapter(
 
     inner class FavoriteDogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val dogImageView: ImageView = itemView.findViewById(R.id.dogImageView)
-        private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton) // Кнопка удаления
+        private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 
         fun bind(favoriteDog: FavoriteDog) {
-            // Загрузка изображения с помощью Glide
+            // Загрузка изображения с оптимизацией
             Glide.with(itemView.context)
                 .load(favoriteDog.imageUrl)
+                .thumbnail(0.1f) // Оптимизация - сначала грузим миниатюру
                 .into(dogImageView)
 
-            // Обработка клика по элементу
-            itemView.setOnClickListener {
+            // Клик по изображению - открытие полноэкранного просмотра
+            dogImageView.setOnClickListener {
                 onItemClick(favoriteDog)
             }
 
-            // Обработка клика по кнопке удаления
+            // Клик по кнопке удаления
             deleteButton.setOnClickListener {
                 onDeleteClick(favoriteDog)
+            }
+
+            // Долгое нажатие для дополнительных действий
+            itemView.setOnLongClickListener {
+                // Можно добавить контекстное меню
+                true
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteDogViewHolder {
-        // Создание ViewHolder
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_favorite_dog, parent, false)
         return FavoriteDogViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: FavoriteDogViewHolder, position: Int) {
-        // Привязка данных к ViewHolder
         holder.bind(favoriteDogs[position])
     }
 
-    override fun getItemCount(): Int = favoriteDogs.size // Количество элементов в списке
+    override fun getItemCount(): Int = favoriteDogs.size
+
+    // Метод для обновления списка
+    fun updateList(newList: List<FavoriteDog>) {
+        favoriteDogs = newList
+        notifyDataSetChanged()
+    }
 }

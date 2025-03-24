@@ -1,9 +1,13 @@
 package com.example.dogloversgallery
 
+import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dogloversgallery.adapter.FavoriteDogAdapter
 import com.example.dogloversgallery.databinding.ActivityFavoritesBinding
 import com.example.dogloversgallery.factory.DogViewModelFactory
@@ -21,25 +25,44 @@ class FavoritesActivity : AppCompatActivity() {
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Создание адаптера
         val adapter = FavoriteDogAdapter(
             emptyList(),
             onItemClick = { favoriteDog ->
-                // Обработка клика по элементу (например, открытие деталей)
+                // Открываем FullscreenImageActivity с передачей URL изображения
+                val intent = Intent(this, FullscreenImageActivity::class.java).apply {
+                    putExtra(FullscreenImageActivity.EXTRA_IMAGE_URL, favoriteDog.imageUrl)
+                }
+                startActivity(intent)
+
             },
             onDeleteClick = { favoriteDog ->
-                viewModel.removeFromFavorites(favoriteDog.imageUrl) // Удаление из избранного
+                viewModel.removeFromFavorites(favoriteDog.imageUrl)
             }
         )
 
-        // Настройка RecyclerView
-        binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.favoritesRecyclerView.adapter = adapter
+        setupRecyclerView(adapter)
 
-        // Наблюдение за изменениями в списке избранных изображений
         viewModel.favorites.observe(this) { favorites ->
-            adapter.favoriteDogs = favorites
-            adapter.notifyDataSetChanged()
+            adapter.updateList(favorites)
+        }
+    }
+
+    private fun setupRecyclerView(adapter: FavoriteDogAdapter) {
+        binding.favoritesRecyclerView.apply {
+            layoutManager = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(this@FavoritesActivity, 2)
+            } else {
+                LinearLayoutManager(this@FavoritesActivity)
+            }
+            setHasFixedSize(true)
+            this.adapter = adapter
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        (binding.favoritesRecyclerView.adapter as? FavoriteDogAdapter)?.let {
+            setupRecyclerView(it)
         }
     }
 }

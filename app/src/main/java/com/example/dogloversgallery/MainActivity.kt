@@ -13,27 +13,35 @@ import com.example.dogloversgallery.repository.DogRepository
 import com.example.dogloversgallery.viewmodel.DogViewModel
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
-
-    // Инициализация ViewModel с использованием фабрики
     private val viewModel: DogViewModel by viewModels {
         DogViewModelFactory((application as DogLoversGalleryApplication).repository)
     }
+    private var currentImageUrl: String? = null // Сохраняем текущий URL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Восстанавливаем изображение при повороте
+        if (savedInstanceState != null) {
+            currentImageUrl = savedInstanceState.getString("CURRENT_IMAGE_URL")
+            currentImageUrl?.let { url ->
+                Glide.with(this).load(url).into(binding.imageView)
+            }
+        }
+
         viewModel.dogImage.observe(this) { imageUrl ->
-            Glide.with(this).load(imageUrl).into(binding.imageView)
+            if (currentImageUrl != imageUrl) { // Загружаем только новое изображение
+                currentImageUrl = imageUrl
+                Glide.with(this).load(imageUrl).into(binding.imageView)
+            }
         }
 
         binding.nextButton.setOnClickListener {
             viewModel.loadRandomDogImage()
         }
-
         binding.favoriteButton.setOnClickListener {
             viewModel.dogImage.value?.let { imageUrl ->
                 viewModel.addToFavorites(imageUrl)
@@ -47,5 +55,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.loadRandomDogImage()
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentImageUrl?.let {
+            outState.putString("CURRENT_IMAGE_URL", it)
+        }
     }
 }

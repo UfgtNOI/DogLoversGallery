@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/background"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Изображение (занимает 70% ширины) -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/dog_image" />
+
+        <!-- Кнопки (30% ширины, вертикальный стек) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"
+                android:elevation="4dp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Следующая" />
+
+            <Button
+                android:id="@+id/favoriteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"
+                android:elevation="4dp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:text="В избранное" />
+
+            <Button
+                android:id="@+id/favoritesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"
+                android:elevation="4dp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Избранное" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
