@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.nextButton.setOnClickListener {
-            viewModel.loadRandomDogImage()
+            viewModel.loadRandomDogImage(forceRefresh = true)
         }
         binding.favoriteButton.setOnClickListener {
             viewModel.dogImage.value?.let { imageUrl ->
